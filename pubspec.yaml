@@ -32,6 +32,7 @@ dependencies:
   socket_io_client: ^2.0.0-beta.2
   shared_preferences: ^0.5.12+4
   prompt_dialog: ^0.1.2
+  image_picker: ^0.6.7+12
 
 dev_dependencies:
   flutter_test:

@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:chatapp/MessageModel.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:image_picker/image_picker.dart';
 /**
  * Home page
  */
@@ -19,8 +22,22 @@ class _HomePageState extends State<HomePage> {
   ScrollController scrollController = new ScrollController();
 
   IO.Socket socket;
-  String url = 'http://192.168.0.101:3000';
+  String url = 'http://socketoiunet.herokuapp.com';
 
+
+Future getImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.getImage(source: ImageSource.camera);
+     File _image;
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
   @override
   void dispose() {
     socket.disconnect();
@@ -54,12 +71,12 @@ class _HomePageState extends State<HomePage> {
     socket.onConnectError((data) {
       print('socket connect error ${data}');
     });
-    socket.on('event', (data) => print(data));
+    
     socket.onDisconnect((_) => print('disconnect'));
-    socket.on('fromServer', (_) => print(_));
+
 
     socket.on('chat:message', (data) {
-      print(data);
+      print("este es un mensaje $data");
      
 
 
@@ -81,6 +98,11 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("ChatApp")),
+       floatingActionButton: FloatingActionButton(
+        onPressed: getImage,
+        tooltip: 'Pick Image',
+        child: Icon(Icons.add_a_photo),
+      ),
       body: Container(
           child: Column(children: <Widget>[
         Expanded(

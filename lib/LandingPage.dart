@@ -12,7 +12,7 @@ class LandingPage extends StatefulWidget {
 }
 
 class _LandingPageState extends State<LandingPage> {
-  String url='http://192.168.0.101:3000';
+  String url='http://socketoiunet.herokuapp.com';
   TextEditingController controller = new TextEditingController();
   @override
   Widget build(BuildContext context) {
